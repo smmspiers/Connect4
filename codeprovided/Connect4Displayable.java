@@ -9,5 +9,4 @@ package assignment2017.codeprovided;
 public interface Connect4Displayable {
 	
 	public void displayBoard();
-
 }
