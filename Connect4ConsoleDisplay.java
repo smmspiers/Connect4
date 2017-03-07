@@ -5,16 +5,24 @@ import assignment2017.codeprovided.Connect4Displayable;
 public class Connect4ConsoleDisplay implements Connect4Displayable {
 
     public void displayBoard() {
-        for (int i = 0; i < 12; i++) {
-            System.out.format("|            |n%");
+
+        for (int row = MyGameState.board.length - 1; row >= 0; row--) {
+
+            System.out.print("|");
+            for (int col = 0; col < 7; col++) {
+
+                if (MyGameState.board[row][col] == 0) {
+                    System.out.print(" R ");
+                } else if (MyGameState.board[row][col] == 1) {
+                    System.out.print(" Y ");
+                } else if (MyGameState.board[row][col] == -1) {
+                    System.out.print("   ");
+                }
+            }
+            System.out.println("|");
         }
 
-    }
-
-    public static void main(String[] args) {
-
-        Connect4ConsoleDisplay console = new Connect4ConsoleDisplay();
-
-        console.displayBoard();
+        System.out.println(" --------------------- ");
+        System.out.println("  0  1  2  3  4  5  6  ");
     }
 }

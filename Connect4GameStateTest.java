@@ -263,5 +263,5 @@ public class Connect4GameStateTest {
 		} catch (IllegalColumnException e) {
 			fail(msg + "IllegalColumnException raised on legal column");
 		}
-	}	
+	}
 }

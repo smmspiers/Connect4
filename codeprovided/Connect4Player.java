@@ -10,5 +10,5 @@ public abstract class Connect4Player {
 	 * getCounterAt method in order to decide which move to make)
 	 * @param gameState the current Connect4 game state
 	 */
-	public abstract void makeMove(Connect4GameState gameState);
+	public abstract void makeMove(Connect4GameState gameState) throws ColumnFullException;
 }
