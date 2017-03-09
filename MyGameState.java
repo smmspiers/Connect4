@@ -1,8 +1,9 @@
 package assignment2017;
 
-import assignment2017.codeprovided.ColumnFullException;
 import assignment2017.codeprovided.Connect4GameState;
+import assignment2017.codeprovided.ColumnFullException;
 import assignment2017.codeprovided.IllegalColumnException;
+import assignment2017.codeprovided.IllegalRowException;
 
 public class MyGameState extends Connect4GameState {
 
@@ -18,7 +19,16 @@ public class MyGameState extends Connect4GameState {
         turn = 1;
     }
 
-    public int getCounterAt(int col, int row) {
+    public int getCounterAt(int col, int row) throws IllegalColumnException, IllegalRowException  {
+
+        if (col < 0 || col >= NUM_COLS) {
+            throw new IllegalColumnException(col);
+        }
+
+        if (row < 0 || row >= NUM_ROWS) {
+            throw new IllegalRowException(row);
+        }
+
         return board[row][col];
     }
 
@@ -39,6 +49,7 @@ public class MyGameState extends Connect4GameState {
         int counterCount = 0;
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
+
                 if (board[row][col] == YELLOW || board[row][col] == RED) {
                     counterCount++;
                 }
@@ -71,17 +82,23 @@ public class MyGameState extends Connect4GameState {
             if (board[row][col] == EMPTY) {
                 if (whoseTurn() == YELLOW) {
                     board[row][col] = YELLOW;
+                    turn++;
                     return;
                 } else if (whoseTurn() == RED) {
                     board[row][col] = RED;
+                    turn++;
                     return;
                 }
             }
         }
-        turn++;
     }
 
-    public boolean isColumnFull(int col) {
+    public boolean isColumnFull(int col) throws IllegalColumnException {
+
+        if (col < 0 || col >= NUM_COLS) {
+            throw new IllegalColumnException(col);
+        }
+
         boolean fullOrNot = false;
         int counterCount = 0;
         for (int row = 0; row < board.length; row++) {

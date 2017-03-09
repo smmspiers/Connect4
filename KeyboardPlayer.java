@@ -13,8 +13,9 @@ import assignment2017.Connect4ConsoleDisplay;
 public class KeyboardPlayer extends Connect4Player {
 
     public void makeMove(Connect4GameState gameState) {
+
         int input = 0;
-        do {
+        while (true) {
             try {
                 Scanner keyboard = new Scanner(System.in);
                 System.out.println("Please enter a column number, 0 to 6 followed by return.");
@@ -27,8 +28,10 @@ public class KeyboardPlayer extends Connect4Player {
             } catch (IllegalColumnException e) {
                 System.out.println("NOT A VALID COLUMN");
             } finally {
-                //Connect4ConsoleDisplay.displayBoard();
+                if (input >= 0 && input < Connect4GameState.NUM_COLS) {
+                    break;
+                }
             }
-        } while (input > 6 && input < 0);
+        }
     }
 }

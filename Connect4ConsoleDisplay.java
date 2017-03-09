@@ -6,8 +6,8 @@ public class Connect4ConsoleDisplay implements Connect4Displayable {
 
     public void displayBoard() {
 
+        // iterating backwards since board in displayed downwards
         for (int row = MyGameState.board.length - 1; row >= 0; row--) {
-
             System.out.print("|");
             for (int col = 0; col < 7; col++) {
 
