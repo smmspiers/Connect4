@@ -1,21 +1,21 @@
 package assignment2017;
 
 import assignment2017.codeprovided.Connect4Displayable;
+import assignment2017.codeprovided.Connect4GameState;
 
 public class Connect4ConsoleDisplay implements Connect4Displayable {
 
     public void displayBoard() {
 
         // iterating backwards since board in displayed downwards
-        for (int row = MyGameState.board.length - 1; row >= 0; row--) {
+        for (int row = Connect4GameState.NUM_ROWS - 1; row >= 0; row--) {
             System.out.print("|");
-            for (int col = 0; col < 7; col++) {
-
-                if (MyGameState.board[row][col] == 0) {
+            for (int col = 0; col < Connect4GameState.NUM_COLS; col++) {
+                if (MyGameState.board[row][col] == Connect4GameState.RED) {
                     System.out.print(" R ");
-                } else if (MyGameState.board[row][col] == 1) {
+                } else if (MyGameState.board[row][col] == Connect4GameState.YELLOW) {
                     System.out.print(" Y ");
-                } else if (MyGameState.board[row][col] == -1) {
+                } else if (MyGameState.board[row][col] == Connect4GameState.EMPTY) {
                     System.out.print("   ");
                 }
             }

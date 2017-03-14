@@ -8,14 +8,14 @@ import assignment2017.codeprovided.IllegalColumnException;
 
 import assignment2017.codeprovided.Connect4Player;
 import assignment2017.codeprovided.Connect4GameState;
-import assignment2017.Connect4ConsoleDisplay;
 
 public class KeyboardPlayer extends Connect4Player {
 
     public void makeMove(Connect4GameState gameState) {
 
-        int input = 0;
-        while (true) {
+        int input;
+        boolean moveMade = false;
+        while (!moveMade) {
             try {
                 Scanner keyboard = new Scanner(System.in);
                 System.out.println("Please enter a column number, 0 to 6 followed by return.");
@@ -23,14 +23,17 @@ public class KeyboardPlayer extends Connect4Player {
                 gameState.move(input);
             } catch (InputMismatchException e) {
                 System.out.println("INCORRECT INPUT");
+                continue;
             } catch (ColumnFullException e) {
                 System.out.println("COLUMN FULL");
+                continue;
             } catch (IllegalColumnException e) {
                 System.out.println("NOT A VALID COLUMN");
-            } finally {
-                if (input >= 0 && input < Connect4GameState.NUM_COLS) {
-                    break;
-                }
+                continue;
+            }
+            if (input >= 0 && input < Connect4GameState.NUM_COLS) {
+                MyGameState.turn++;
+                moveMade = true;
             }
         }
     }

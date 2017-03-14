@@ -1,7 +1,5 @@
 package assignment2017.codeprovided;
 
-import assignment2017.codeprovided.Connect4GameState;
-
 public abstract class Connect4Player {
 
 	/**

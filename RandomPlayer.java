@@ -9,33 +9,21 @@ public class RandomPlayer extends Connect4Player {
 
     public void makeMove(Connect4GameState gameState) {
 
-        int randomCol = 0;
-        int exceptionCounter = 0;
-        while (true) {
+        int randomCol;
+        boolean moveMade = false;
+        while (!moveMade) {
             try {
                 randomCol = (int) (Math.random() * Connect4GameState.NUM_COLS);
                 gameState.move(randomCol);
             } catch (ColumnFullException e) {
-                if (exceptionCounter < 1) {
-                    System.out.println("COLUMN FULL");
-                }
-                //exceptionsCaught[exceptionCounter] = true;
-                exceptionCounter++;
+                continue;
             } catch (IllegalColumnException e) {
-                if (exceptionCounter < 1) {
-                    System.out.println("NOT A VALID COLUMN");
-                }
-                //exceptionsCaught[exceptionCounter] = true;
-                exceptionCounter++;
-            } finally {
-                if (randomCol >= 0 && randomCol < Connect4GameState.NUM_COLS) {
-                    break;
-                }
+                continue;
+            }
+            if (randomCol >= 0 && randomCol < Connect4GameState.NUM_COLS) {
+                MyGameState.turn++;
+                moveMade = true;
             }
         }
-
-        /*if (gameState.isColumnFull(randomCol)) {
-            throw new ColumnFullException(randomCol);
-        } else {*/
     }
 }
