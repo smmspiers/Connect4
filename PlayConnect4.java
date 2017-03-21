@@ -7,7 +7,7 @@ public class PlayConnect4 {
     public static void main(String[] args) {
         MyGameState gameState = new MyGameState();
 
-        Connect4ConsoleDisplay console = new Connect4ConsoleDisplay();
+        Connect4ConsoleDisplay console = new Connect4ConsoleDisplay(gameState);
         Connect4Player keyboard = new KeyboardPlayer();
         Connect4Player computer = new RandomPlayer();
 

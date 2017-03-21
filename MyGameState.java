@@ -1,18 +1,31 @@
 package assignment2017;
 
-import assignment2017.codeprovided.Connect4GameState;
-import assignment2017.codeprovided.ColumnFullException;
-import assignment2017.codeprovided.IllegalColumnException;
-import assignment2017.codeprovided.IllegalRowException;
+import assignment2017.codeprovided.*;
 
 public class MyGameState extends Connect4GameState {
 
-    public static int board[][] = new int[NUM_ROWS][NUM_COLS];
-    protected static int turn;
+    public int[][] board = new int[NUM_ROWS][NUM_COLS];
+    private int turn;
+
+    private void setBoard(int[][] board) {
+        this.board = board;
+    }
+
+    private void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    private int[][] getBoard() {
+        return board;
+    }
+
+    private int getTurn() {
+        return turn;
+    }
 
     public void startGame() {
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[row].length; col++) {
+        for (int row = 0; row < NUM_ROWS; row++) {
+            for (int col = 0; col < NUM_COLS; col++) {
                 board[row][col] = EMPTY;
             }
         }
@@ -41,20 +54,14 @@ public class MyGameState extends Connect4GameState {
     }
 
     public boolean gameOver() {
-        if (getWinner() == RED || getWinner() == YELLOW || isBoardFull()) {
-            return true;
-        } else {
-            return false;
-        }
+        return (getWinner() == RED || getWinner() == YELLOW || isBoardFull());
     }
-
-
 
     public boolean isBoardFull() {
         boolean fullOrNot = false;
         int counterCount = 0;
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[row].length; col++) {
+        for (int row = 0; row < NUM_ROWS; row++) {
+            for (int col = 0; col < NUM_COLS; col++) {
 
                 if (board[row][col] == YELLOW || board[row][col] == RED) {
                     counterCount++;
@@ -90,13 +97,14 @@ public class MyGameState extends Connect4GameState {
             throw new ColumnFullException(col);
         }
 
-        for (int row = 0; row < board.length; row++) {
+        for (int row = 0; row < NUM_ROWS; row++) {
             if (board[row][col] == EMPTY) {
                 if (whoseTurn() == YELLOW) {
                     board[row][col] = YELLOW;
                 } else if (whoseTurn() == RED) {
                     board[row][col] = RED;
                 }
+                turn++;
                 return;
             }
         }
@@ -110,7 +118,7 @@ public class MyGameState extends Connect4GameState {
 
         boolean fullOrNot = false;
         int counterCount = 0;
-        for (int row = 0; row < board.length; row++) {
+        for (int row = 0; row < NUM_ROWS; row++) {
 
             if (board[row][col] == YELLOW || board[row][col] == RED) {
                 counterCount++;
@@ -126,14 +134,17 @@ public class MyGameState extends Connect4GameState {
     }
 
     public Connect4GameState copy() {
-        Connect4GameState copy = this;
-        return copy;
-    }
+        MyGameState copy = new MyGameState();
 
-    public static void main(String[] args) {
-        MyGameState state = new MyGameState();
-        Connect4GameState copy = state.copy();
-        System.out.println(copy);
+        int[][] boardCopy;
+        boardCopy = this.getBoard();
+        copy.setBoard(boardCopy);
+
+        int turnCopy;
+        turnCopy = this.getTurn();
+        copy.setTurn(turnCopy);
+
+        return copy;
     }
 
     private boolean are4Connected(int player) {

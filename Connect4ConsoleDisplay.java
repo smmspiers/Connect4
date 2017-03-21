@@ -5,17 +5,23 @@ import assignment2017.codeprovided.Connect4GameState;
 
 public class Connect4ConsoleDisplay implements Connect4Displayable {
 
+    private MyGameState gameState;
+
+    public Connect4ConsoleDisplay(MyGameState gameState) {
+        this.gameState = gameState;
+    }
+
     public void displayBoard() {
 
         // iterating backwards since board in displayed downwards
         for (int row = Connect4GameState.NUM_ROWS - 1; row >= 0; row--) {
             System.out.print("|");
             for (int col = 0; col < Connect4GameState.NUM_COLS; col++) {
-                if (MyGameState.board[row][col] == Connect4GameState.RED) {
+                if (gameState.board[row][col] == Connect4GameState.RED) {
                     System.out.print(" R ");
-                } else if (MyGameState.board[row][col] == Connect4GameState.YELLOW) {
+                } else if (gameState.board[row][col] == Connect4GameState.YELLOW) {
                     System.out.print(" Y ");
-                } else if (MyGameState.board[row][col] == Connect4GameState.EMPTY) {
+                } else if (gameState.board[row][col] == Connect4GameState.EMPTY) {
                     System.out.print("   ");
                 }
             }

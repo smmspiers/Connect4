@@ -13,7 +13,7 @@ public class KeyboardPlayer extends Connect4Player {
 
     public void makeMove(Connect4GameState gameState) {
 
-        int input;
+        int input = 0;
         boolean moveMade = false;
         while (!moveMade) {
             try {
@@ -23,16 +23,15 @@ public class KeyboardPlayer extends Connect4Player {
                 gameState.move(input);
             } catch (InputMismatchException e) {
                 System.out.println("INCORRECT INPUT");
-                continue;
+//                continue;
             } catch (ColumnFullException e) {
                 System.out.println("COLUMN FULL");
-                continue;
+//                continue;
             } catch (IllegalColumnException e) {
                 System.out.println("NOT A VALID COLUMN");
-                continue;
+//                continue;
             }
             if (input >= 0 && input < Connect4GameState.NUM_COLS) {
-                MyGameState.turn++;
                 moveMade = true;
             }
         }
