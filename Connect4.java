@@ -36,8 +36,7 @@ class Connect4 {
         } else if (gameState.getWinner() == Connect4GameState.YELLOW) {
             System.out.println("Yellow wins.");
         } else {
-            System.out.println("Board full. Game restarted.");
-            play();
+            System.out.println("Board full. Game tied.");
         }
     }
 }

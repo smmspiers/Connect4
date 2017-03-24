@@ -7,6 +7,7 @@ public class Connect4ConsoleDisplay implements Connect4Displayable {
 
     private MyGameState gameState;
 
+    // Overrides default constructor to access board instance from game state
     public Connect4ConsoleDisplay(MyGameState gameState) {
         this.gameState = gameState;
     }

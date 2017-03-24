@@ -136,15 +136,27 @@ public class MyGameState extends Connect4GameState {
     public Connect4GameState copy() {
         MyGameState copy = new MyGameState();
 
-        int[][] boardCopy;
-        boardCopy = this.getBoard();
+        int[][] boardCopy = new int[NUM_ROWS][NUM_COLS];
+        for (int row = 0; row < NUM_ROWS; row++) {
+            for (int col = 0; col < NUM_COLS; col++) {
+                boardCopy[row][col] = board[row][col];
+            }
+        }
         copy.setBoard(boardCopy);
 
-        int turnCopy;
-        turnCopy = this.getTurn();
+        int turnCopy = this.getTurn();
         copy.setTurn(turnCopy);
 
         return copy;
+    }
+
+    public static void main(String[] args) {
+        MyGameState one = new MyGameState();
+
+        MyGameState two = (MyGameState) one.copy();
+
+        System.out.println(one);
+        System.out.println(two);
     }
 
     private boolean are4Connected(int player) {
