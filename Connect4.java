@@ -1,24 +1,38 @@
 package assignment2017;
 
-import assignment2017.codeprovided.Connect4GameState;
-import assignment2017.codeprovided.Connect4Player;
+import assignment2017.codeprovided.*;
 
-class Connect4 {
+/**
+ * A class that controls the flow of game play.
+ * @author Sammy Spiers (aca16sms)
+ * @version 1.0
+ */
+public class Connect4 {
 
-    //instances
     private Connect4GameState gameState;
     private Connect4Player red;
     private Connect4Player yellow;
-    private Connect4ConsoleDisplay console;
+    private Connect4Displayable display;
 
-    Connect4(Connect4GameState gameState, Connect4Player red, Connect4Player yellow, Connect4ConsoleDisplay console) {
+    /**
+     * Class constructor that passes instances of the game state, the two players
+     * and the display to the instance variables of Connect4.
+     * @param gameState the current game state.
+     * @param red player who will be the red counter.
+     * @param yellow player who will be the yellow counter.
+     * @param display way in which game will be displayed to user.
+     */
+    public Connect4(Connect4GameState gameState, Connect4Player red, Connect4Player yellow, Connect4Displayable display) {
         this.gameState = gameState;
         this.red = red;
         this.yellow = yellow;
-        this.console = console;
+        this.display = display;
     }
 
-    void play() {
+    /**
+     * Starts game and initialises game play.
+     */
+    public void play() {
 
         gameState.startGame();
 
@@ -28,7 +42,7 @@ class Connect4 {
             } else {
                 red.makeMove(gameState);
             }
-            console.displayBoard();
+            display.displayBoard();
         }
 
         if (gameState.getWinner() == Connect4GameState.RED) {
@@ -36,6 +50,7 @@ class Connect4 {
         } else if (gameState.getWinner() == Connect4GameState.YELLOW) {
             System.out.println("Yellow wins.");
         } else {
+            // Only other possibility is if the board is full
             System.out.println("Board full. Game tied.");
         }
     }

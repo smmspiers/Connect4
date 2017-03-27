@@ -1,17 +1,29 @@
 package assignment2017;
 
-import assignment2017.codeprovided.Connect4Displayable;
-import assignment2017.codeprovided.Connect4GameState;
+import assignment2017.codeprovided.*;
 
+/**
+ * A class that implements Connect4Displayable to display the game
+ * in the console.
+ * @author Sammy Spiers (aca16sms)
+ * @version 1.0
+ */
 public class Connect4ConsoleDisplay implements Connect4Displayable {
 
     private MyGameState gameState;
 
-    // Overrides default constructor to access board instance from game state
+    /**
+     * Class constructor to access current game state so that the
+     * board can be accessed to display the board in the console.
+     * @param gameState the current game state.
+     */
     public Connect4ConsoleDisplay(MyGameState gameState) {
         this.gameState = gameState;
     }
 
+    /**
+     * Displays the board in the console.
+     */
     public void displayBoard() {
 
         // iterating backwards since board in displayed downwards

@@ -1,14 +1,15 @@
 package assignment2017;
 
 import java.util.Scanner;
-
 import java.util.InputMismatchException;
-import assignment2017.codeprovided.ColumnFullException;
-import assignment2017.codeprovided.IllegalColumnException;
 
-import assignment2017.codeprovided.Connect4Player;
-import assignment2017.codeprovided.Connect4GameState;
+import assignment2017.codeprovided.*;
 
+/**
+ * A class that represents the keyboard player.
+ * @author Sammy Spiers (aca16sms)
+ * @version 1.0
+ */
 public class KeyboardPlayer extends Connect4Player {
 
     public void makeMove(Connect4GameState gameState) {
@@ -23,13 +24,10 @@ public class KeyboardPlayer extends Connect4Player {
                 gameState.move(input);
             } catch (InputMismatchException e) {
                 System.out.println("INCORRECT INPUT");
-//                continue;
             } catch (ColumnFullException e) {
                 System.out.println("COLUMN FULL");
-//                continue;
             } catch (IllegalColumnException e) {
                 System.out.println("NOT A VALID COLUMN");
-//                continue;
             }
             if (input >= 0 && input < Connect4GameState.NUM_COLS) {
                 moveMade = true;

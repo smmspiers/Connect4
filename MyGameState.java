@@ -2,28 +2,23 @@ package assignment2017;
 
 import assignment2017.codeprovided.*;
 
+/**
+ * Extension of Connect4GameState which has all methods implemented including
+ * configuration of the board and a counter to determine whose turn it is.
+ * @author Sammy Spiers (aca16sms)
+ * @version 1.0
+ */
 public class MyGameState extends Connect4GameState {
 
-    public int[][] board = new int[NUM_ROWS][NUM_COLS];
     private int turn;
 
-    private void setBoard(int[][] board) {
-        this.board = board;
-    }
-
-    private void setTurn(int turn) {
-        this.turn = turn;
-    }
-
-    private int[][] getBoard() {
-        return board;
-    }
-
-    private int getTurn() {
-        return turn;
-    }
+    /**
+     * 2D array which contains all the values and locations of each counter.
+     */
+    public int[][] board = new int[NUM_ROWS][NUM_COLS];
 
     public void startGame() {
+        // Iterates through board the set all the values to empty
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
                 board[row][col] = EMPTY;
@@ -47,14 +42,14 @@ public class MyGameState extends Connect4GameState {
 
     public int whoseTurn() {
         if (turn % 2 == 0) {
-            return YELLOW; //keyboard player
+            return YELLOW;
         } else {
-            return RED; //random player
+            return RED;
         }
     }
 
     public boolean gameOver() {
-        return (getWinner() == RED || getWinner() == YELLOW || isBoardFull());
+        return (!(getWinner() == EMPTY) || isBoardFull());
     }
 
     public boolean isBoardFull() {
@@ -69,8 +64,6 @@ public class MyGameState extends Connect4GameState {
 
                 if (counterCount == NUM_COLS * NUM_ROWS) {
                     fullOrNot = true;
-                } else {
-                    fullOrNot = false;
                 }
             }
         }
@@ -126,8 +119,6 @@ public class MyGameState extends Connect4GameState {
 
             if (counterCount == NUM_ROWS) {
                 fullOrNot = true;
-            } else {
-                fullOrNot = false;
             }
         }
         return fullOrNot;
@@ -136,29 +127,26 @@ public class MyGameState extends Connect4GameState {
     public Connect4GameState copy() {
         MyGameState copy = new MyGameState();
 
+        /* A deep copy would be better so I have created a new board in memory
+        and assigned all the board values of the current game state to the copy */
         int[][] boardCopy = new int[NUM_ROWS][NUM_COLS];
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
                 boardCopy[row][col] = board[row][col];
             }
         }
-        copy.setBoard(boardCopy);
+        copy.board = boardCopy;
 
-        int turnCopy = this.getTurn();
-        copy.setTurn(turnCopy);
+        copy.turn = this.turn;
 
         return copy;
     }
 
-    public static void main(String[] args) {
-        MyGameState one = new MyGameState();
-
-        MyGameState two = (MyGameState) one.copy();
-
-        System.out.println(one);
-        System.out.println(two);
-    }
-
+    /**
+     * Checks whether there are 4 counters connected for a certain player.
+     * @param player the player that will be checked if they have won or not.
+     * @return boolean if 4 are connected, true or false if not.
+     */
     private boolean are4Connected(int player) {
 
         // 4 in a row
