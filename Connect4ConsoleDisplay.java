@@ -26,7 +26,8 @@ public class Connect4ConsoleDisplay implements Connect4Displayable {
      */
     public void displayBoard() {
 
-        // iterating backwards since board in displayed downwards
+        /* Iterating backwards since board is displayed downwards in console, so
+        that the bottom left space is indexed by the 0th row and column */
         for (int row = Connect4GameState.NUM_ROWS - 1; row >= 0; row--) {
             System.out.print("|");
             for (int col = 0; col < Connect4GameState.NUM_COLS; col++) {

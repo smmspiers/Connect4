@@ -2,6 +2,9 @@ package assignment2017;
 
 import assignment2017.codeprovided.*;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 /**
  * A class that controls the flow of game play.
  * @author Sammy Spiers (aca16sms)
@@ -9,7 +12,7 @@ import assignment2017.codeprovided.*;
  */
 public class Connect4 {
 
-    private Connect4GameState gameState;
+    private MyGameState gameState;
     private Connect4Player red;
     private Connect4Player yellow;
     private Connect4Displayable display;
@@ -22,7 +25,7 @@ public class Connect4 {
      * @param yellow player who will be the yellow counter.
      * @param display way in which game will be displayed to user.
      */
-    public Connect4(Connect4GameState gameState, Connect4Player red, Connect4Player yellow, Connect4Displayable display) {
+    public Connect4(MyGameState gameState, Connect4Player red, Connect4Player yellow, Connect4Displayable display) {
         this.gameState = gameState;
         this.red = red;
         this.yellow = yellow;
@@ -30,7 +33,7 @@ public class Connect4 {
     }
 
     /**
-     * Starts game and initialises game play.
+     * Initialises game and starts game play.
      */
     public void play() {
 

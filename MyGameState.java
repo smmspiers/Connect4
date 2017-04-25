@@ -13,6 +13,11 @@ public class MyGameState extends Connect4GameState {
     private int turn;
 
     /**
+     * Boolean which determines whether game is played on GUI or console.
+     */
+    public boolean gUI;
+
+    /**
      * 2D array which contains all the values and locations of each counter.
      */
     public int[][] board = new int[NUM_ROWS][NUM_COLS];
@@ -127,7 +132,7 @@ public class MyGameState extends Connect4GameState {
     public Connect4GameState copy() {
         MyGameState copy = new MyGameState();
 
-        /* A deep copy would be better so I have created a new board in memory
+        /* A deep copy is better here so I have created a new board in memory
         and assigned all the board values of the current game state to the copy */
         int[][] boardCopy = new int[NUM_ROWS][NUM_COLS];
         for (int row = 0; row < NUM_ROWS; row++) {
@@ -138,15 +143,11 @@ public class MyGameState extends Connect4GameState {
         copy.board = boardCopy;
 
         copy.turn = this.turn;
+        copy.gUI = this.gUI;
 
         return copy;
     }
 
-    /**
-     * Checks whether there are 4 counters connected for a certain player.
-     * @param player the player that will be checked if they have won or not.
-     * @return boolean if 4 are connected, true or false if not.
-     */
     private boolean are4Connected(int player) {
 
         // 4 in a row

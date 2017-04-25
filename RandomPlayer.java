@@ -15,7 +15,8 @@ public class RandomPlayer extends Connect4Player {
         boolean moveMade = false;
         while (!moveMade) {
             try {
-                // Random method returns value between 0 and 1 so need to cast to integer
+                /* Random method returns double between 0 and 1 so need to multiply by
+                number of columns and cast to integer */
                 randomCol = (int) (Math.random() * Connect4GameState.NUM_COLS);
                 gameState.move(randomCol);
             } catch (ColumnFullException e) {
