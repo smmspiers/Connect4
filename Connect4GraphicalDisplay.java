@@ -1,12 +1,14 @@
 package assignment2017;
 
 import assignment2017.codeprovided.*;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.*;
+import java.awt.Graphics;
 
 /**
  * @author Sammy Spiers
@@ -15,7 +17,6 @@ import java.awt.geom.*;
 public class Connect4GraphicalDisplay extends JFrame implements Connect4Displayable {
 
     private MyGameState gameState;
-    private KeyboardPlayer key;
 
     Connect4GraphicalDisplay(MyGameState gameState) {
         this.gameState = gameState;
@@ -24,10 +25,8 @@ public class Connect4GraphicalDisplay extends JFrame implements Connect4Displaya
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        //setResizable(false);
+        setResizable(false);
         setVisible(true);
-
-        addKeyListener(new KeyboardPlayer.Keys(gameState));
 
         Container contentPane = new Container();
         contentPane.setLayout(new BorderLayout());
@@ -48,10 +47,77 @@ public class Connect4GraphicalDisplay extends JFrame implements Connect4Displaya
             for (int i = 1; i <= Connect4GameState.NUM_ROWS; i++) {
                 g2.draw(new Line2D.Double(0, i * 70, 420, i * 70));
             }
+
+            g2.dispose();
         }
     }
 
-    private class Controls extends JPanel {
+    public class Controls implements KeyListener {
+
+        private DrawCounter drawer;
+
+        Controls(DrawCounter drawer) {
+            this.drawer = drawer;
+        }
+
+        private int whichKey(KeyEvent k) {
+            drawer.paint = true;
+            return (k.getKeyCode() - 48);
+        }
+
+        public void keyPressed(KeyEvent k) {
+            try {
+                gameState.move(whichKey(k));
+            } catch (ColumnFullException e) {
+                System.out.println("COLUMN FULL");
+            }
+        }
+
+        public void keyTyped(KeyEvent k) {
+            try {
+                gameState.move(whichKey(k));
+            } catch (ColumnFullException e) {
+                System.out.println("COLUMN FULL");
+            }
+        }
+
+        public void keyReleased(KeyEvent k) {
+            try {
+                gameState.move(whichKey(k));
+            } catch (ColumnFullException e) {
+                System.out.println("COLUMN FULL");
+            }
+        }
+    }
+
+    private class DrawCounter extends JPanel {
+
+        private int row;
+        private int col;
+        boolean paint;
+
+        private void location(int row) {
+            this.row = row;
+        }
+
+        public void paint(Graphics g) {
+
+            Graphics2D g2 = (Graphics2D) g;
+
+            if (paint) {
+                for (int i = 0; i < Connect4GameState.NUM_COLS) {
+                    for (int j = 0; j < Connect4GameState.NUM_ROWS) {
+                        switch (gameState.board) {
+                            case Connect4GameState.RED :
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /*private class Controls extends JPanel {
 
         Controls() {
             setLayout(new FlowLayout());
@@ -60,7 +126,7 @@ public class Connect4GraphicalDisplay extends JFrame implements Connect4Displaya
                 add(new JButton(String.valueOf(i)));
             }
         }
-    }
+    }*/
 
     private class Stats extends JPanel {
 
@@ -73,6 +139,7 @@ public class Connect4GraphicalDisplay extends JFrame implements Connect4Displaya
 
         Settings() {
             setLayout(new GridLayout(0, 1));
+            setSize(100, 300);
 
             add(new JLabel("<html><center>Select who you would like<br>to play against:<center><html>"));
 
@@ -126,8 +193,11 @@ public class Connect4GraphicalDisplay extends JFrame implements Connect4Displaya
         Container contentPane = gUI.getContentPane();
         contentPane.setLayout(new BorderLayout());
         contentPane.add(gUI.new Board(), BorderLayout.CENTER);
-        contentPane.add(gUI.new Controls(), BorderLayout.NORTH);
         contentPane.add(gUI.new Settings(), BorderLayout.WEST);
+
+        DrawCounter drawer = gUI.new DrawCounter();
+        contentPane.add(drawer, BorderLayout.CENTER)
+        contentPane.addKeyListener(gUI.new Controls(gameState, drawer));
         gUI.revalidate();
     }
 }

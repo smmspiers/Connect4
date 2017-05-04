@@ -36,8 +36,16 @@ public class Connect4 {
      * Initialises game and starts game play.
      */
     public void play() {
-
         gameState.startGame();
+
+        if (!gameState.gUI) {
+            playConsole();
+        } else {
+            playGUI();
+        }
+    }
+
+    private void playConsole() {
 
         while (!gameState.gameOver()) {
             if (gameState.whoseTurn() == Connect4GameState.YELLOW) {
@@ -56,5 +64,9 @@ public class Connect4 {
             // Only other possibility is if the board is full
             System.out.println("Board full. Game tied.");
         }
+    }
+
+    private void playGUI() {
+
     }
 }
