@@ -17,15 +17,37 @@ public class PlayConnect4 {
     public static void main(String args[]) {
         MyGameState gameState = new MyGameState();
 
-        Connect4Player player1 = new KeyboardPlayer();
-        Connect4Player player2 = new KeyboardPlayer();
-        Connect4Displayable display;
+        Connect4Displayable display = null;
+        Connect4Player player1 = null;
+        Connect4Player player2 = null;
 
-        //GameSettings settings = new GameSettings();
-        if (args[0].equals("gui")) {
+        if (args[0].equals("-gui")) {
             display = new Connect4GraphicalDisplay(gameState);
-        } else {
+            player1 = new KeyListenerPlayer(gameState);
+            gameState.gUI = true;
+
+            do {
+                switch (gameState.opponent) {
+                    case MyGameState.HUMAN:
+                        if (args[0].equals("gui")) {
+                            player2 = new KeyListenerPlayer(gameState);
+                        } else {
+                            player2 = new KeyboardPlayer();
+                        }
+                        break;
+                    case MyGameState.RANDOM:
+                        player2 = new RandomPlayer();
+                        break;
+                }
+            } while (player2 == null);
+            // Program won't continue until user enters opponent
+        }
+
+        if (args[0].equals("-nogui")) {
             display = new Connect4ConsoleDisplay(gameState);
+            player1 = new KeyboardPlayer();
+            player2 = new RandomPlayer();
+            gameState.gUI = false;
         }
 
         Connect4 game = new Connect4(gameState, player2, player1, display);

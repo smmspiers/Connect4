@@ -1,8 +1,5 @@
 package assignment2017;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -15,11 +12,11 @@ import assignment2017.codeprovided.*;
  */
 public class KeyboardPlayer extends Connect4Player {
 
-    private void gUIMove(Connect4GameState gameState) {
+    /*private void gUIMove(Connect4GameState gameState) {
 
-    }
+    }*/
 
-    private void consoleMove(Connect4GameState gameState) {
+    /*private void consoleMove(Connect4GameState gameState) {
         int input = 0;
         boolean moveMade = false;
         while (!moveMade) {
@@ -39,16 +36,36 @@ public class KeyboardPlayer extends Connect4Player {
                 moveMade = true;
             }
         }
-    }
+    }*/
 
     public void makeMove(Connect4GameState gameState) {
-        MyGameState currentGameState = (MyGameState) gameState.copy();
+        /*MyGameState currentGameState = (MyGameState) gameState.copy();
 
         if (currentGameState.gUI) {
             gUIMove(gameState);
         }
         if (!currentGameState.gUI) {
             consoleMove(gameState);
+        }*/
+
+        int input = 0;
+        boolean moveMade = false;
+        while (!moveMade) {
+            try {
+                Scanner keyboard = new Scanner(System.in);
+                System.out.println("Please enter a column number, 0 to 6 followed by return.");
+                input = keyboard.nextInt();
+                gameState.move(input);
+            } catch (InputMismatchException e) {
+                System.out.println("INCORRECT INPUT");
+            } catch (ColumnFullException e) {
+                System.out.println("COLUMN FULL");
+            } catch (IllegalColumnException e) {
+                System.out.println("NOT A VALID COLUMN");
+            }
+            if (input >= 0 && input < Connect4GameState.NUM_COLS) {
+                moveMade = true;
+            }
         }
     }
 }

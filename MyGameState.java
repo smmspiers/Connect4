@@ -10,12 +10,21 @@ import assignment2017.codeprovided.*;
  */
 public class MyGameState extends Connect4GameState {
 
+    static final int HUMAN = 1;
+    static final int RANDOM = 2;
+    static final int INTELLIGENT = 3;
+
     private int turn;
 
     /**
      * Boolean which determines whether game is played on GUI or console.
      */
     public boolean gUI;
+
+    /**
+     * Which type of opponent user is playing against.
+     */
+    public int opponent;
 
     /**
      * 2D array which contains all the values and locations of each counter.

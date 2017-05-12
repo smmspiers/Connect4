@@ -2,8 +2,7 @@ package assignment2017;
 
 import assignment2017.codeprovided.*;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+
 
 /**
  * A class that controls the flow of game play.
@@ -38,15 +37,6 @@ public class Connect4 {
     public void play() {
         gameState.startGame();
 
-        if (!gameState.gUI) {
-            playConsole();
-        } else {
-            playGUI();
-        }
-    }
-
-    private void playConsole() {
-
         while (!gameState.gameOver()) {
             if (gameState.whoseTurn() == Connect4GameState.YELLOW) {
                 yellow.makeMove(gameState);
@@ -56,17 +46,15 @@ public class Connect4 {
             display.displayBoard();
         }
 
-        if (gameState.getWinner() == Connect4GameState.RED) {
-            System.out.println("Red wins.");
-        } else if (gameState.getWinner() == Connect4GameState.YELLOW) {
-            System.out.println("Yellow wins.");
-        } else {
-            // Only other possibility is if the board is full
-            System.out.println("Board full. Game tied.");
+        if (!gameState.gUI) {
+            if (gameState.getWinner() == Connect4GameState.RED) {
+                System.out.println("Red wins.");
+            } else if (gameState.getWinner() == Connect4GameState.YELLOW) {
+                System.out.println("Yellow wins.");
+            } else {
+                // Only other possibility is if the board is full
+                System.out.println("Board full. Game tied.");
+            }
         }
-    }
-
-    private void playGUI() {
-
     }
 }

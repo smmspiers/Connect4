@@ -1,8 +1,6 @@
 package assignment2017;
 
 import assignment2017.codeprovided.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,193 +9,185 @@ import java.awt.geom.*;
 import java.awt.Graphics;
 
 /**
- * @author Sammy Spiers
+ * A class that implements Connect4Displayable to display the game
+ * in a GUI.
+ * @author Sammy Spiers (aca16sms)
  * @version 1.0
  */
 public class Connect4GraphicalDisplay extends JFrame implements Connect4Displayable {
 
+    private static final int SETTINGS_WINDOW_WIDTH = 300;
+    private static final int SETTINGS_WINDOW_HEIGHT = 200;
+    private static final int BOARD_HEIGHT = 440;
+    private static final int BOARD_WIDTH = 420;
+    private static final int BOARD_SQUARE_WIDTH = 60;
+    private static final int BOARD_SQUARE_HEIGHT = 70;
+    private static final int VERTICAL_COUNTER_ALIGNMENT = 355;
+    private static final int[] BLUE = {20, 117, 227};
+    private static final int[] RED = {239, 44, 33};
+    private static final int[] YELLOW = {249, 191, 10};
+    private static final int FONT_SIZE = 48;
+    private static final int VERTICAL_FONT_ALIGNMENT = 225;
+    private static final int HORIZONTAL_FONT_ALIGNMENT = 62;
+
     private MyGameState gameState;
+    private Board board;
 
     Connect4GraphicalDisplay(MyGameState gameState) {
         this.gameState = gameState;
 
-        setTitle("Connect 4");
-        setSize(600, 600);
+        setTitle("Select Opponent");
+        setSize(SETTINGS_WINDOW_WIDTH, SETTINGS_WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+
+        add(new Settings());
+
         setVisible(true);
-
-        Container contentPane = new Container();
-        contentPane.setLayout(new BorderLayout());
-    }
-
-    private class Board extends JPanel {
-
-        public void paint(Graphics g) {
-
-            Graphics2D g2 = (Graphics2D) g;
-
-            g2.draw(new Rectangle2D.Double(0, 0, 420, 420));
-
-            for (int i = 1; i <= Connect4GameState.NUM_COLS ; i++) {
-                g2.draw(new Line2D.Double(i * 60, 0, i * 60, 420));
-            }
-
-            for (int i = 1; i <= Connect4GameState.NUM_ROWS; i++) {
-                g2.draw(new Line2D.Double(0, i * 70, 420, i * 70));
-            }
-
-            g2.dispose();
-        }
-    }
-
-    public class Controls implements KeyListener {
-
-        private DrawCounter drawer;
-
-        Controls(DrawCounter drawer) {
-            this.drawer = drawer;
-        }
-
-        private int whichKey(KeyEvent k) {
-            drawer.paint = true;
-            return (k.getKeyCode() - 48);
-        }
-
-        public void keyPressed(KeyEvent k) {
-            try {
-                gameState.move(whichKey(k));
-            } catch (ColumnFullException e) {
-                System.out.println("COLUMN FULL");
-            }
-        }
-
-        public void keyTyped(KeyEvent k) {
-            try {
-                gameState.move(whichKey(k));
-            } catch (ColumnFullException e) {
-                System.out.println("COLUMN FULL");
-            }
-        }
-
-        public void keyReleased(KeyEvent k) {
-            try {
-                gameState.move(whichKey(k));
-            } catch (ColumnFullException e) {
-                System.out.println("COLUMN FULL");
-            }
-        }
-    }
-
-    private class DrawCounter extends JPanel {
-
-        private int row;
-        private int col;
-        boolean paint;
-
-        private void location(int row) {
-            this.row = row;
-        }
-
-        public void paint(Graphics g) {
-
-            Graphics2D g2 = (Graphics2D) g;
-
-            if (paint) {
-                for (int i = 0; i < Connect4GameState.NUM_COLS) {
-                    for (int j = 0; j < Connect4GameState.NUM_ROWS) {
-                        switch (gameState.board) {
-                            case Connect4GameState.RED :
-
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /*private class Controls extends JPanel {
-
-        Controls() {
-            setLayout(new FlowLayout());
-
-            for (int i = 0; i <= Connect4GameState.NUM_COLS - 1; i++){
-                add(new JButton(String.valueOf(i)));
-            }
-        }
-    }*/
-
-    private class Stats extends JPanel {
-
-        Stats(MyGameState gameState) {
-
-        }
+        revalidate();
     }
 
     private class Settings extends JPanel {
 
+        private static final int SETTINGS_PANEL_HEIGHT_WIDTH = 100;
+
         Settings() {
             setLayout(new GridLayout(0, 1));
-            setSize(100, 300);
+            setSize(SETTINGS_PANEL_HEIGHT_WIDTH, SETTINGS_PANEL_HEIGHT_WIDTH);
 
-            add(new JLabel("<html><center>Select who you would like<br>to play against:<center><html>"));
+            JLabel ask = new JLabel("Select who you would like to play against:");
+            ask.setHorizontalAlignment(JLabel.CENTER);
+            add(ask);
 
             JButton human = new JButton("Human");
+            human.addActionListener(new HumanHandler());
             add(human);
-            human.addActionListener(new humanHandler());
 
             JButton random = new JButton("Random");
+            random.addActionListener(new RandomHandler());
             add(random);
-            random.addActionListener(new randomHandler());
 
-            JButton intelligent = new JButton("Intelligent");
+            JButton intelligent = new JButton("Intelligent (NOT IMPLEMENTED)");
             add(intelligent);
-            intelligent.addActionListener(new intelligentHandler());
+
+            JLabel instructions = new JLabel("<html><b>Use keys from 0-6 to input a column.</b></html>");
+            instructions.setHorizontalAlignment(JLabel.CENTER);
+            add(instructions);
         }
 
-        private class humanHandler implements ActionListener {
+        private class HumanHandler implements ActionListener {
 
+            @Override
             public void actionPerformed(ActionEvent e) {
-
+                gameState.opponent = MyGameState.HUMAN;
+                board = new Board();
             }
         }
 
-        private class randomHandler implements ActionListener {
+        private class RandomHandler implements ActionListener {
 
+            @Override
             public void actionPerformed(ActionEvent e) {
-
-            }
-        }
-
-        private class intelligentHandler implements ActionListener {
-
-            public void actionPerformed(ActionEvent e) {
-
+                gameState.opponent = MyGameState.RANDOM;
+                board = new Board();
             }
         }
     }
 
+    private class Board extends JFrame {
+
+        Board() {
+            setTitle("Connect 4");
+            setSize(BOARD_WIDTH, BOARD_HEIGHT);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setLocationRelativeTo(null);
+            setResizable(false);
+
+            addKeyListener(new KeyListenerPlayer(gameState));
+            setVisible(true);
+        }
+    }
+
+    private class Painter extends JComponent {
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            Graphics2D g2 = (Graphics2D) g;
+
+            drawBoard(g2);
+            if (gameState.gameOver()) {
+                drawWinner(g2);
+            }
+        }
+
+        private void drawBoard(Graphics2D g2) {
+            g2.setPaint(new Color(BLUE[0], BLUE[1], BLUE[2]));
+            g2.fill(new Rectangle2D.Double(0, 0, BOARD_WIDTH, BOARD_WIDTH));
+
+            g2.setPaint(new Color(0, 0, 0));
+            for (int i = 1; i <= Connect4GameState.NUM_COLS; i++) {
+                g2.draw(new Line2D.Double(i * BOARD_SQUARE_WIDTH, 0,
+                        i * BOARD_SQUARE_WIDTH, BOARD_SQUARE_HEIGHT * BOARD_SQUARE_WIDTH));
+            }
+
+            for (int i = 1; i <= Connect4GameState.NUM_ROWS; i++) {
+                g2.draw(new Line2D.Double(0, i * BOARD_SQUARE_HEIGHT,
+                        BOARD_SQUARE_HEIGHT * BOARD_SQUARE_WIDTH, i * BOARD_SQUARE_HEIGHT));
+            }
+
+            for (int i = 0; i < Connect4GameState.NUM_ROWS; i++) {
+                for (int j = 0; j < Connect4GameState.NUM_COLS; j++) {
+
+                    if (gameState.board[i][j] == Connect4GameState.EMPTY) {
+                        g2.setPaint(new Color(255, 255, 255));
+                        g2.fill(new Ellipse2D.Double(BOARD_SQUARE_WIDTH * j,
+                                VERTICAL_COUNTER_ALIGNMENT + BOARD_SQUARE_HEIGHT * -i, BOARD_SQUARE_WIDTH, BOARD_SQUARE_WIDTH));
+                    } else {
+                        if (gameState.board[i][j] == Connect4GameState.RED) {
+                            g2.setPaint(new Color(RED[0], RED[1], RED[2]));
+                        } else if (gameState.board[i][j] == Connect4GameState.YELLOW) {
+                            g2.setPaint(new Color(YELLOW[0], YELLOW[1], YELLOW[2]));
+                        }
+                        g2.fill(new Ellipse2D.Double(BOARD_SQUARE_WIDTH * j,
+                                VERTICAL_COUNTER_ALIGNMENT + BOARD_SQUARE_HEIGHT * -i, BOARD_SQUARE_WIDTH, BOARD_SQUARE_WIDTH));
+                    }
+                }
+            }
+        }
+
+        private void drawWinner(Graphics2D g2) {
+            g2.setPaint(new Color(0, 0, 0));
+            Font font = new Font(Font.SANS_SERIF, Font.BOLD, FONT_SIZE);
+            g2.setFont(font);
+
+            if (gameState.getWinner() == Connect4GameState.YELLOW) {
+                g2.drawString("Yellow wins", HORIZONTAL_FONT_ALIGNMENT, VERTICAL_FONT_ALIGNMENT);
+            } else if (gameState.getWinner() == Connect4GameState.RED) {
+                g2.drawString("Red wins", HORIZONTAL_FONT_ALIGNMENT, VERTICAL_FONT_ALIGNMENT);
+            } else {
+                g2.drawString("Draw.", HORIZONTAL_FONT_ALIGNMENT, VERTICAL_FONT_ALIGNMENT);
+            }
+        }
+    }
+
+    /**
+     * Displays board in a GUI.
+     */
     public void displayBoard() {
+        Painter paint = new Painter();
 
-    }
-
-    //private int drawLocation(MyGameState gameState) {
-        //int row = gameState.
-    //}
-
-    public static void main(String[] args) {
-        MyGameState gameState = new MyGameState();
-        Connect4GraphicalDisplay gUI = new Connect4GraphicalDisplay(gameState);
-
-        Container contentPane = gUI.getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(gUI.new Board(), BorderLayout.CENTER);
-        contentPane.add(gUI.new Settings(), BorderLayout.WEST);
-
-        DrawCounter drawer = gUI.new DrawCounter();
-        contentPane.add(drawer, BorderLayout.CENTER)
-        contentPane.addKeyListener(gUI.new Controls(gameState, drawer));
-        gUI.revalidate();
+        /* Until the board is not null, so until the user selects an opponent,
+           nothing can be added to the board. This is because a NullPointerException
+           will be passed.
+        */
+        if (board != null) {
+            Container contentPane = board.getContentPane();
+            contentPane.setLayout(new BorderLayout());
+            contentPane.add(paint, BorderLayout.CENTER);
+            board.repaint();
+            board.revalidate();
+        }
     }
 }
